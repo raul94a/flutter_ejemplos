@@ -1,0 +1,24 @@
+name: flutter_bloc_firebase
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  firebase_core: ^2.11.0
+  firebase_storage: ^11.1.2
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.2
+  image_picker: ^0.8.7+4
+  path_provider: ^2.0.14
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
