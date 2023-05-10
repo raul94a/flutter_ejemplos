@@ -5,46 +5,8 @@ import 'package:bloc_arch/data/models/characters_api_models.dart';
 import 'package:bloc_arch/data/models/pagination_model.dart';
 import 'package:bloc_arch/data/repositories/characters_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class CharactersState {
-  final bool loading;
-  final bool error;
-  final CharactersApiModel? apiResponse;
-  final List<CharacterModel> favorites;
-  CharactersState(
-      {required this.loading,
-      required this.error,
-      required this.apiResponse,
-      this.favorites = const []});
-
-  CharactersState copyWith({
-    bool? loading,
-    bool? error,
-    List<CharacterModel>? favorites,
-    CharactersApiModel? apiResponse,
-  }) {
-    return CharactersState(
-      favorites: favorites ?? this.favorites,
-      loading: loading ?? this.loading,
-      error: error ?? this.error,
-      apiResponse: apiResponse ?? this.apiResponse,
-    );
-  }
-}
-
-abstract class CharactersEvents {}
-
-class FetchEvent extends CharactersEvents {}
-
-class FetchPageEvent extends CharactersEvents {
-  final String url;
-  FetchPageEvent({required this.url});
-}
-
-class ToggleFavorite extends CharactersEvents {
-  final CharacterModel character;
-  ToggleFavorite({required this.character});
-}
+part 'characters_state.dart';
+part 'characters_events.dart';
 
 class CharactersBloc extends Bloc<CharactersEvents, CharactersState> {
   final repo = CharactersRepository(api: CharactersApi());
