@@ -18,6 +18,11 @@ class MainApp extends StatelessWidget {
   }
 }
 
+
+const imageWidth = 250.0;
+const imageHeight = 250.0;
+
+
 class _ImagePickerExample extends StatefulWidget {
   const _ImagePickerExample({super.key});
 
@@ -27,6 +32,37 @@ class _ImagePickerExample extends StatefulWidget {
 
 class _ImagePickerExampleState extends State<_ImagePickerExample> {
   String imagePath = '';
+
+  Future<void> takePictureHandler() async {
+    final imagePickerHandler = ImagePickerHandler();
+    final xFile = await imagePickerHandler.takePicture();
+    if (xFile != null) {
+      final imagePath =
+          '${(await path_provider.getTemporaryDirectory()).path}${DateTime.now()}.jpg';
+
+      xFile.saveTo(imagePath).then((value) {
+        setState(() {
+          this.imagePath = imagePath;
+        });
+      });
+    }
+  }
+
+  Future<void> selectFromGalleryHandler() async {
+    final imagePickerHandler = ImagePickerHandler();
+    final xFile = await imagePickerHandler.selectFromGallery();
+    if (xFile != null) {
+      final imagePath =
+          '${(await path_provider.getTemporaryDirectory()).path}${DateTime.now()}.jpg';
+
+      xFile.saveTo(imagePath).then((value) {
+        setState(() {
+          this.imagePath = imagePath;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -35,7 +71,8 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
       width: width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [ const SizedBox(
+        children: [
+          const SizedBox(
             height: 15,
           ),
           _PlaceholderOrPicture(imagePath: imagePath),
@@ -46,22 +83,9 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
             style: ButtonStyle(
                 fixedSize: MaterialStateProperty.resolveWith(
                     (states) => const Size(150, 40))),
-            onPressed: () async {
-              final imagePickerHandler = ImagePickerHandler();
-              final xFile = await imagePickerHandler.takePicture();
-              if (xFile != null) {
-                final imagePath =
-                    '${(await path_provider.getTemporaryDirectory()).path}${DateTime.now()}.jpg';
-    
-                xFile.saveTo(imagePath).then((value) {
-                  setState(() {
-                    this.imagePath = imagePath;
-                  });
-                });
-              }
-            },
-            label: Text('Take a picture'),
-            icon: Icon(Icons.camera),
+            onPressed: takePictureHandler,
+            label:const  Text('Take a picture'),
+            icon: const Icon(Icons.camera),
           ),
           const SizedBox(
             height: 15,
@@ -70,24 +94,10 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
             style: ButtonStyle(
                 fixedSize: MaterialStateProperty.resolveWith(
                     (states) => const Size(150, 40))),
-            onPressed: () async {
-              final imagePickerHandler = ImagePickerHandler();
-              final xFile = await imagePickerHandler.selectFromGallery();
-              if (xFile != null) {
-                final imagePath =
-                    '${(await path_provider.getTemporaryDirectory()).path}${DateTime.now()}.jpg';
-    
-                xFile.saveTo(imagePath).then((value) {
-                  setState(() {
-                    this.imagePath = imagePath;
-                  });
-                });
-              }
-            },
-            label: Text('Select from gallery'),
-            icon: Icon(Icons.image),
+            onPressed: selectFromGalleryHandler,
+            label: const Text('Select from gallery'),
+            icon: const Icon(Icons.image),
           ),
-          
         ],
       ),
     );
@@ -127,5 +137,3 @@ class _PlaceholderOrPicture extends StatelessWidget {
   }
 }
 
-const imageWidth = 250.0;
-const imageHeight = 250.0;
