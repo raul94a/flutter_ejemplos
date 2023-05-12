@@ -18,10 +18,8 @@ class MainApp extends StatelessWidget {
   }
 }
 
-
 const imageWidth = 250.0;
 const imageHeight = 250.0;
-
 
 class _ImagePickerExample extends StatefulWidget {
   const _ImagePickerExample({super.key});
@@ -31,7 +29,7 @@ class _ImagePickerExample extends StatefulWidget {
 }
 
 class _ImagePickerExampleState extends State<_ImagePickerExample> {
-  String imagePath = '';
+  String _imagePath = '';
 
   Future<void> takePictureHandler() async {
     final imagePickerHandler = ImagePickerHandler();
@@ -42,7 +40,7 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
 
       xFile.saveTo(imagePath).then((value) {
         setState(() {
-          this.imagePath = imagePath;
+          _imagePath = imagePath;
         });
       });
     }
@@ -52,14 +50,9 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
     final imagePickerHandler = ImagePickerHandler();
     final xFile = await imagePickerHandler.selectFromGallery();
     if (xFile != null) {
-      final imagePath =
-          '${(await path_provider.getTemporaryDirectory()).path}${DateTime.now()}.jpg';
-
-      xFile.saveTo(imagePath).then((value) {
         setState(() {
-          this.imagePath = imagePath;
+          _imagePath = xFile.path;
         });
-      });
     }
   }
 
@@ -75,7 +68,7 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
           const SizedBox(
             height: 15,
           ),
-          _PlaceholderOrPicture(imagePath: imagePath),
+          _PlaceholderOrPicture(imagePath: _imagePath),
           const SizedBox(
             height: 15,
           ),
@@ -84,7 +77,7 @@ class _ImagePickerExampleState extends State<_ImagePickerExample> {
                 fixedSize: MaterialStateProperty.resolveWith(
                     (states) => const Size(150, 40))),
             onPressed: takePictureHandler,
-            label:const  Text('Take a picture'),
+            label: const Text('Take a picture'),
             icon: const Icon(Icons.camera),
           ),
           const SizedBox(
@@ -136,4 +129,3 @@ class _PlaceholderOrPicture extends StatelessWidget {
         ));
   }
 }
-
