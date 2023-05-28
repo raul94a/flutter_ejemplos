@@ -1,0 +1,32 @@
+name: isar_example
+description: A new Flutter project.
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+
+
+isar_version: &isar_version 3.1.0 # define the version to be used
+
+dependencies:
+  path_provider:
+  isar: *isar_version
+  isar_flutter_libs: *isar_version # contains Isar Core
+  provider: any
+  flutter_svg: ^2.0.6
+  intl: any
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  isar_generator: *isar_version
+  build_runner: any
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
